@@ -94,6 +94,7 @@ document.getElementById('captureButton')?.addEventListener('click', captureImage
                     .add(profileData)
                     .then((docRef) => {
                       console.log('Profile saved with ID: ', docRef.id);
+                      displayProfiles();
                     })
                     .catch((error) => {
                       console.error('Error adding profile: ', error);
@@ -114,31 +115,31 @@ document.getElementById('captureButton')?.addEventListener('click', captureImage
   }
   
   // Display profiles from Firestore
-  function displayProfiles() {
-    const profilesContainer = document.getElementById('profilesContainer');
+  // function displayProfiles() {
+  //   const profilesContainer = document.getElementById('profilesContainer');
+  //   profilesContainer.innerHTML = "";
+  //   db.collection('profiles')
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       querySnapshot.forEach((doc) => {
+  //         const profile = doc.data();
   
-    db.collection('profiles')
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const profile = doc.data();
+  //         // Create an HTML element for each profile
+  //         const profileElement = document.createElement('div');
+  //         profileElement.innerHTML = `
+  //           <p>Name: ${profile.name}</p>
+  //           <p>Age: ${profile.age}</p>
+  //           <p>Place of Pic: ${profile.placeOfPic}</p>
+  //           <img src="${profile.picUrl}" alt="Profile Image" width="200">
+  //         `;
   
-          // Create an HTML element for each profile
-          const profileElement = document.createElement('div');
-          profileElement.innerHTML = `
-            <p>Name: ${profile.name}</p>
-            <p>Age: ${profile.age}</p>
-            <p>Place of Pic: ${profile.placeOfPic}</p>
-            <img src="${profile.picUrl}" alt="Profile Image" width="200">
-          `;
-  
-          profilesContainer.appendChild(profileElement);
-        });
-      })
-      .catch((error) => {
-        console.error('Error getting profiles: ', error);
-      });
-  }
+  //         profilesContainer.appendChild(profileElement);
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error getting profiles: ', error);
+  //     });
+  // }
 
 
 
@@ -394,11 +395,11 @@ function fetchLocationFromLatAndLong(position) {
       const formcontainer = document.createElement('div');
       formcontainer.innerHTML = `
        
-        <label for="locationname">Location Name:</label>
+        <label for="locationname">Snap is About:</label>
         <input type = "text" id="locationname">   
        
        
-        <label for="locationstory">Locaation description:</label>
+        <label for="locationstory">SnapDescription:</label>
         <input type = "textarea" id="locationstory">   
        
         <button id="save">save</button>
@@ -446,7 +447,6 @@ function fetchLocationFromLatAndLong(position) {
     // Function to display profiles from Firestore
     function displayProfiles() {
       profilesContainer.innerHTML = '';
-
       profilesCollection.get()
         .then(snapshot => {
           snapshot.forEach(doc => {
@@ -454,19 +454,17 @@ function fetchLocationFromLatAndLong(position) {
             const profileElement = document.createElement('div');
             profileElement.classList.add('profile');
             profileElement.innerHTML = `
-<div class="image-container" id=${doc.id}>
-    <span class="remove">remove</span>
-    <img src="${profile.picUrl}" alt="Profile Image">
+              <div class="image-container" id=${doc.id}>
+              <span class="remove">remove</span>
+              <img src="${profile.picUrl}" alt="Profile Image">
               <h3>${profile.locationname}</h3>
               <p> <strong>story:</strong> ${profile.locationstory}</p>
               <p> <strong>Place of Pic:</strong> ${profile.locationname}</p>
               <section>
-                <h4>position</h4>
-                <p><strong>lat:</strong>${profile?.position?.latitude} <strong>long:</strong>${profile?.position?.longitude}<p>
-                    <p><strong>headding:</strong>${(profile?.position?.heading)?profile?.position?.heading:"headding towards unknown direction"}</p>
-                    <p><strong>locationName:</strong>${(profile?.position?.locationName)?profile?.position?.locationName:"failed to find LocationName"}</p>
-                </section>    
-</div>
+              <h4>position</h4>
+              <p><strong>lat:</strong>${profile?.position?.latitude} <strong>long:</strong>${profile?.position?.longitude}<p>
+              <p><strong>locationName:</strong>${(profile?.position?.locationName)?profile?.position?.locationName:"failed to find LocationName"}</p>
+              </section></div>
             `;
             profileElement.querySelector(".remove")
               .addEventListener("click", (e) => {
@@ -486,7 +484,7 @@ function fetchLocationFromLatAndLong(position) {
                     console.log("error in deleting" + e);
                   });
               })
-            profilesContainer.appendChild(profileElement);
+            profilesContainer.prepend(profileElement);
           });
         })
         .catch(error => {
@@ -499,8 +497,6 @@ function fetchLocationFromLatAndLong(position) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Display profiles on page load
-    displayProfiles();
 function initLoader() {
   const loader = document.createElement("div");
   loader.classList.add("blacklayer");
@@ -513,4 +509,5 @@ function initLoader() {
 function removeLoader() {
   document.querySelector(".blacklayer").remove();
   document.body.classList.remove("removescroll")
-  }
+}
+                      // <p><strong>headding:</strong>${(profile?.position?.heading)?profile?.position?.heading:"headding towards unknown direction"}</p>
