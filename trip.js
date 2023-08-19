@@ -46,11 +46,7 @@ document.getElementById('captureButton')?.addEventListener('click', captureImage
     // Add event listener to scroll to top
     scrollToTopButton.addEventListener('click', scrollToTop);
 
-  
-
-
-
-// Capture image from camera
+    // Capture image from camera
   function captureImage() {
     navigator.mediaDevices.getUserMedia({ video: true })
       .then((stream) => {
@@ -224,12 +220,7 @@ startButton.onclick = function (e) {
         });
     }
 
-    // Example usage:
-    // To access the front camera:
-    // startVideoStream('user');
 
-    // To access the back camera:
-    // startVideoStream('environment');
 
 
 function fetchLocationFromLatAndLong(position) {
@@ -455,7 +446,7 @@ function fetchLocationFromLatAndLong(position) {
             profileElement.classList.add('profile');
             profileElement.innerHTML = `
               <div class="image-container" id=${doc.id}>
-              <span class="remove">remove</span>
+              <span class="remove"><span class="material-symbols-outlined">delete_forever</span></span>
               <img src="${profile.picUrl}" alt="Profile Image">
               <h3>${profile.locationname}</h3>
               <p> <strong>story:</strong> ${profile.locationstory}</p>

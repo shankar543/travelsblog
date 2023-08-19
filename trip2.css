@@ -17,19 +17,31 @@ h1 {
   text-align: center;
 }
 
+.streamcontainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
 .streamcontainer .streamcameraactionbuttons {
-  display: table;
-  table-layout: fixed;
-  width: 25%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 2px;
+  align-items: center;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
 }
 
 .streamcontainer .streamcameraactionbuttons span {
-  display: table-cell;
-  text-align: center;
+  flex: 1 1 100px;
+  font-weight: bold;
   text-transform: capitalize;
-  width: 100px;
+  text-align: center;
+  width: auto;
 }
 
 /* Styles for the capture button */
@@ -42,8 +54,10 @@ h1 {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  flex: 0 1 400px;
+  flex: 0 1 350px;
+  margin: 1px 0px;
   z-index: 2;
+  font-weight: bold;
 }
 
 .actionbuttons {
@@ -154,14 +168,14 @@ h1 {
   top: 1%;
   right: 1%;
   color: white;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, .8);
   border-radius: 1px;
   text-align: center;
   box-shadow: 0px 0px 10px 4px rgba(255, 255, 255, 0.7);
-  font-size: 1.5em;
+  font-size: 1.4em;
   z-index: 4;
   padding: 2px;
-  font-weight: 200;
+  font-weight: 800;
   cursor: pointer;
   border-radius: 5px;
   transition: all 0.1s linear;
@@ -169,7 +183,9 @@ h1 {
 
 .profile .image-container span:hover {
   background-color: #bbbbbb;
-  border: 2px solid green;
+  border: 2px solid red;
+  color: red;
+
 }
 
 .profile .image-container span:active {
