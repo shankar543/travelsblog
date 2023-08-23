@@ -461,7 +461,7 @@ function fetchLocationFromLatAndLong(position) {
               .addEventListener("click", (e) => {
                 if (!confirm('are you sure , u want to delete?')) { return }
                 e.target.setAttribute("pointer-events", "none")
-                const docid = e.target.parentElement.getAttribute("id");
+                const docid = e.target.parentElement.parentElement.getAttribute('id');
                 profileElement.querySelector('.image-container img').src = 'https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif';
                 profilesCollection
                   .doc(docid)
