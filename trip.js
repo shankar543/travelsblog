@@ -4,10 +4,14 @@
     let videoStream = null;
     let capturedImage = null;
     let is_Video_On = false;
- 
+    let startCamaraBtn = document.getElementById("startButton");
+    const profilesContainer = document.getElementById('profilesContainer');
+    const scrollToTopButton = document.getElementById('scrollToTopButton');
+    const stopButton = document.getElementById("stopButton");
+    stopButton.classList.add("hide");
        // Initialize Firebase
 const app = firebase.initializeApp({
-    apiKey: "AIzaSyCaQ_5iR5aPm6kBVwhR9Zqg7iQHYUUSh6g",
+  apiKey: "AIzaSyCaQ_5iR5aPm6kBVwhR9Zqg7iQHYUUSh6g",
 	authDomain: "myfavurls-6a643.firebaseapp.com",
 	projectId: "myfavurls-6a643",
 	storageBucket: "myfavurls-6a643.appspot.com",
@@ -26,11 +30,9 @@ const profilesCollection = db.collection('profiles');
     // const storage = app.storage();
 
     // DOM elements
-    const startButton = document.getElementById('startButton');
+
     // const captureButton = document.getElementById('captureButton');
-    const profilesContainer = document.getElementById('profilesContainer');
-    const scrollToTopButton = document.getElementById('scrollToTopButton');
-const stopButton = document.getElementById("stopButton")
+
 
   // Call displayProfiles() when the page is loaded or refreshed
   window.addEventListener('load', displayProfiles);
@@ -142,18 +144,23 @@ document.getElementById('captureButton')?.addEventListener('click', captureImage
 
 
     // Add event listener to start the video stream
-// startButton.addEventListener('click', e => {
+// startCamaraBtn.addEventListener('click', e => {
 //   startVideoStream('user')
 // });
-startButton.onclick = function (e) {
+startCamaraBtn.onclick = function (e) {
   startVideoStream('user');
-  stopButton.classList.replace("hide","enable");
+  stopButton.classList.remove("hide");
 }
 
  
 
     // stop video stream if exists and remove stream
     function stopVideoStream() {
+      startCamaraBtn.classList.remove("hide");
+      startCamaraBtn.classList.add("enable");
+      profilesContainer.classList.add("display-grid");
+      stopButton.classList.add("hide")
+      stopButton.classList.remove("enable")
       if (videoStream) {
         const video_elm = document.getElementById('camera');
         video_elm.srcObject = null;
@@ -168,6 +175,11 @@ startButton.onclick = function (e) {
 
     // Function to start the video stream
     function startVideoStream(cameraPosition) {
+      startCamaraBtn.classList.remove("enable")
+      startCamaraBtn.classList.add("hide");
+      stopButton.classList.remove("hide");
+      stopButton.classList.add("enable");
+      profilesContainer.classList.add("hide");
       const videoConstraints = {
         video: {
           facingMode: cameraPosition
@@ -178,13 +190,13 @@ startButton.onclick = function (e) {
       navigator.mediaDevices.getUserMedia(videoConstraints)
         .then(stream => {
           is_Video_On = true;
-          let captureButton = document.createElement("button");
-          captureButton.textContent = "Click Photo"
+          let captureButton = document.createElement("span");
+          captureButton.innerHTML = `<i class="fa-solid fa-heart"></i>`
           captureButton.setAttribute("id", "captureButton");
+          captureButton.classList.add('cam-controls')
           captureButton.addEventListener("click", captureImage);
-          captureButton.classList.add("capture-button");
-          let actionbuttons = document.getElementsByClassName("actionbuttons")[0];
-          actionbuttons.prepend(captureButton);
+          
+          
           videoStream = stream;
           const streamcontainer = document.createElement('div');
           streamcontainer.classList.add('streamcontainer');
@@ -203,6 +215,7 @@ startButton.onclick = function (e) {
             startVideoStream('environment')
           })
           cam_controls.appendChild(selfieElm);
+          cam_controls.appendChild(captureButton);
           cam_controls.appendChild(backcamElm);
           const cameraElement = document.createElement('video');
           cameraElement.id = 'camera';
@@ -211,7 +224,7 @@ startButton.onclick = function (e) {
           cameraElement.classList.add("camera-element")
           streamcontainer.prepend(cameraElement);
           streamcontainer.appendChild(cam_controls);
-
+          
           document.body.prepend(streamcontainer);
           cameraElement.srcObject = stream;
         })
@@ -397,11 +410,17 @@ function fetchLocationFromLatAndLong(position) {
         <input type = "textarea" id="locationstory">   
        
         <button id="save">save</button>
-          <span id="micbtn" class="material-symbols-outlined">mic_off</span>`;
+        <span id="micbtn" class="material-symbols-outlined">mic_off</span>
+        <button id="cancel">Cancel</button>
+        `;
       const locationname = formcontainer.querySelector('#locationname');
       const locationstory = formcontainer.querySelector('#locationstory');
+      const cancelbtn = formcontainer.querySelector('#cancel')
       const micbtn = formcontainer.querySelector('#micbtn');
-      
+      cancelbtn.addEventListener("click",(e)=>{
+        layer.remove();
+        document.body.classList.remove('removescroll')
+      })
 
       getNarrationStory(micbtn, locationstory);
     
@@ -456,10 +475,10 @@ function fetchLocationFromLatAndLong(position) {
               <span class="remove"><span class="material-symbols-outlined">delete_forever</span></span>
               <img src="${profile.picUrl}" alt="Profile Image">
               <h3>${profile.locationname}</h3>
-              <p> <strong>ABOUT:</strong> ${profile.locationstory}</p>
+              <p> <strong>ABOUT:</strong> ${profile.locationstory} 😊</p>
               <p> <strong>#TAG:</strong> ${profile.locationname}</p>
               <section>
-              <h4>${ profile.date}</h4>
+              <h4>${ profile.date?profile.date:new Date().toDateString()} ❤️</h4>
               
               <p><strong>LOCATION:</strong>${(profile?.position?.locationName)?profile?.position?.locationName:"failed to find LocationName"}</p>
               </section></div>
@@ -519,6 +538,4 @@ function removeLoader() {
 }
                       // <p><strong>headding:</strong>${(profile?.position?.heading)?profile?.position?.heading:"headding towards unknown direction"}</p>
 
-                      document.onload=function(){
-                        stopButton.classList.add("hide");
-                      }
+            

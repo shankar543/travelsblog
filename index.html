@@ -2,6 +2,7 @@
 <html>
 
 <head>
+
   <title>Profile Capture</title>
   <link rel="stylesheet" href="./trip2.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -12,18 +13,21 @@
     rel="stylesheet">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  </head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+</head>
 
 <body>
   <div class="container">
-    <h1>Profile Capture</h1>
-    <div class="actionbuttons">
-      <button id="startButton" onclick="" class="capture-button">OPEN CAMERA</button>
-      <!-- <button id="captureButton" class="capture-button">Capture Image</button> -->
-      <button id="stopButton" class="capture-button">CLOSE CAMERA</button>
+    <div class="actionbutton-container">
+      <button id="startButton"  class="camera-control">OPEN CAMERA</button>
+      <button id="stopButton" class="camera-control">CLOSE CAMERA</button>
     </div>
-    <div id="profilesContainer" class="profiles-container"></div>
+    <div  id="profilesContainer" class="profiles-container"></div>
     <button id="scrollToTopButton" class="scroll-to-top">&uarr;</button>
   </div>
 
