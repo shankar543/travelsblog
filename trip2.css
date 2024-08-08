@@ -18,6 +18,7 @@ h1 {
 }
 
 .streamcontainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -25,41 +26,56 @@ h1 {
   align-items: center;
 }
 
-.streamcontainer .streamcameraactionbuttons {
+.streamcontainer .cam-controls {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  gap: 2px;
+  flex-flow: row no-wrap;
+  justify-content: space-between;
+  gap: 100px;
+ 
   align-items: center;
-  margin-left: auto;
-  margin-right: auto;
+
   width: 100%;
+  border-radius: 50%;
+  height: 30px;
+  padding: 2em;
+  position: absolute;
+  bottom: 5%;
+  background: rgba(255, 255, 255, .5);
 }
 
-.streamcontainer .streamcameraactionbuttons span {
-  flex: 1 1 100px;
+.streamcontainer .cam-controls span {
+  flex: 1 1 30px;
   font-weight: bold;
   text-transform: capitalize;
   text-align: center;
-  width: auto;
+ 
 }
 
 /* Styles for the capture button */
-.capture-button, .streamcontainer .streamcameraactionbuttons>span {
-  padding: 10px 20px;
-  background-color: #007bff;
+.capture-button {
+  padding: 10px;
   color: #fff;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  width: 100%;
+  /* border-radius: 50%; */
+  font-size: 15px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  flex: 0 1 350px;
-  margin: 1px 0px;
+  flex: 0 1 150px;
+  margin: 3px 8px;
   z-index: 2;
   font-weight: bold;
 }
-
+.streamcontainer .cam-controls{
+  padding: 10px;
+  color: #fff;
+  border: none;
+  width: 50%;
+  border-radius: 25px;
+  flex: 0 1 40px;
+  cursor: pointer;
+  
+}
 .actionbuttons {
   display: flex;
   flex-flow: row wrap;
@@ -68,18 +84,13 @@ h1 {
 
 }
 
-.capture-button:hover, .streamcontainer .streamcameraactionbuttons>span:hover {
+
+.capture-button:hover, .streamcontainer .cam-controls>span:hover {
   background-color: #0056b3;
 }
 
 /*campera settings*/
-#camera {
-  width: 500px;
-  height: auto;
-  border: 5px solid white;
-  margin-left: auto;
-  margin-right: auto;
-}
+
 
 /* Styles for the profiles container */
 .profiles-container {
@@ -331,4 +342,20 @@ body.removescroll {
   cursor: pointer;
   position: relative;
   top: 0.3em;
+}
+.hide{
+  display: none;
+}
+.enable{
+  display:block;
+}
+.camera-element{
+  width: 100%;
+    height: 100%;
+    position: relative;
+    max-width: fit-content;
+    max-height: fit-content;
+    border: 2px solid rgba(0, 0, 0, .8);
+    padding: 1em;
+    overflow: hidden;
 }

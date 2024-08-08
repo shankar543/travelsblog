@@ -48,6 +48,7 @@ document.getElementById('captureButton')?.addEventListener('click', captureImage
 
     // Capture image from camera
   function captureImage() {
+  
     navigator.mediaDevices.getUserMedia({ video: true })
       .then((stream) => {
         const video = document.getElementById('camera');
@@ -145,7 +146,8 @@ document.getElementById('captureButton')?.addEventListener('click', captureImage
 //   startVideoStream('user')
 // });
 startButton.onclick = function (e) {
-  startVideoStream('user')
+  startVideoStream('user');
+  stopButton.classList.replace("hide","enable");
 }
 
  
@@ -177,7 +179,7 @@ startButton.onclick = function (e) {
         .then(stream => {
           is_Video_On = true;
           let captureButton = document.createElement("button");
-          captureButton.textContent = "Capture Image"
+          captureButton.textContent = "Click Photo"
           captureButton.setAttribute("id", "captureButton");
           captureButton.addEventListener("click", captureImage);
           captureButton.classList.add("capture-button");
@@ -186,31 +188,29 @@ startButton.onclick = function (e) {
           videoStream = stream;
           const streamcontainer = document.createElement('div');
           streamcontainer.classList.add('streamcontainer');
-          const streamCameraButtonContainer = document.createElement('div');
-          streamCameraButtonContainer.classList.add('streamcameraactionbuttons')
+          const cam_controls = document.createElement('div');
+          cam_controls.classList.add('cam-controls')
           const selfieElm = document.createElement('span');
-          selfieElm.innerText = 'selfie'
+          selfieElm.innerHTML = `<i class="fa-solid fa-image-portrait"></i>`
           selfieElm.addEventListener('click', e => {
             stopVideoStream();
             startVideoStream('user')
           })
           const backcamElm = document.createElement('span');
-          backcamElm.innerText = 'back camera';
+          backcamElm.innerHTML =`<i class="fa-solid fa-camera-rotate"></i>`
           backcamElm.addEventListener('click', e => {
             stopVideoStream();
             startVideoStream('environment')
           })
-          streamCameraButtonContainer.appendChild(selfieElm);
-          streamCameraButtonContainer.appendChild(backcamElm);
+          cam_controls.appendChild(selfieElm);
+          cam_controls.appendChild(backcamElm);
           const cameraElement = document.createElement('video');
           cameraElement.id = 'camera';
-          cameraElement.width = '100%';
-          cameraElement.height = 'auto';
           cameraElement.autoplay = true;
           cameraElement.playsinline = true;
-          cameraElement.style.display = 'block';
+          cameraElement.classList.add("camera-element")
           streamcontainer.prepend(cameraElement);
-          streamcontainer.appendChild(streamCameraButtonContainer);
+          streamcontainer.appendChild(cam_controls);
 
           document.body.prepend(streamcontainer);
           cameraElement.srcObject = stream;
@@ -294,6 +294,8 @@ function fetchLocationFromLatAndLong(position) {
 
     // Function to capture image from the video stream
     function captureImage() {
+      scrollToTopButton.click();
+      initLoader();
       // Create a canvas element and set its dimensions
       if (!is_Video_On) {
         startVideoStream('user')
@@ -330,6 +332,7 @@ function fetchLocationFromLatAndLong(position) {
             picUrl: downloadURL,
             position: null
           };
+          removeLoader()
           getdataFromLayout(profileData);
         })
         .catch(error => {
@@ -386,11 +389,11 @@ function fetchLocationFromLatAndLong(position) {
       const formcontainer = document.createElement('div');
       formcontainer.innerHTML = `
        
-        <label for="locationname">Snap is About:</label>
+        <label for="locationname"> TAG:</label>
         <input type = "text" id="locationname">   
        
        
-        <label for="locationstory">SnapDescription:</label>
+        <label for="locationstory">ABOUT:</label>
         <input type = "textarea" id="locationstory">   
        
         <button id="save">save</button>
@@ -408,15 +411,19 @@ function fetchLocationFromLatAndLong(position) {
         if (locationname?.value && locationstory?.value) {
           profileData.locationname = locationname.value;
           profileData.locationstory = locationstory.value;
+          profileData.date = new Date().toDateString();
+          scrollToTop();
           layer.remove();
           document.body.classList.remove('removescroll')
           saveWithPosition(profileData)
             .then(docRef => {
               console.log('Profile saved with ID:' + docRef);
-              removeLoader();
-              alert('image saved');
+               removeLoader()
+               displayProfiles();
             }).catch(err => {
+              
               console.log("some error" + err);
+              removeLoader()
               alert("image save failed"); 
             })
         } else {
@@ -449,17 +456,25 @@ function fetchLocationFromLatAndLong(position) {
               <span class="remove"><span class="material-symbols-outlined">delete_forever</span></span>
               <img src="${profile.picUrl}" alt="Profile Image">
               <h3>${profile.locationname}</h3>
-              <p> <strong>story:</strong> ${profile.locationstory}</p>
-              <p> <strong>Place of Pic:</strong> ${profile.locationname}</p>
+              <p> <strong>ABOUT:</strong> ${profile.locationstory}</p>
+              <p> <strong>#TAG:</strong> ${profile.locationname}</p>
               <section>
-              <h4>position</h4>
-              <p><strong>lat:</strong>${profile?.position?.latitude} <strong>long:</strong>${profile?.position?.longitude}<p>
-              <p><strong>locationName:</strong>${(profile?.position?.locationName)?profile?.position?.locationName:"failed to find LocationName"}</p>
+              <h4>${ profile.date}</h4>
+              
+              <p><strong>LOCATION:</strong>${(profile?.position?.locationName)?profile?.position?.locationName:"failed to find LocationName"}</p>
               </section></div>
             `;
+            // <p><strong>lat:</strong>${profile?.position?.latitude} <strong>long:</strong>${profile?.position?.longitude}<p></p>
             profileElement.querySelector(".remove")
               .addEventListener("click", (e) => {
                 if (!confirm('are you sure , u want to delete?')) { return }
+                else{
+                  let psw = prompt("plesae enter password")
+                  if(psw.toLowerCase() != "mouni"){
+                    alert("sorry,you are not authorised to delete")
+                    return
+                  }
+                }
                 e.target.setAttribute("pointer-events", "none")
                 const docid = e.target.parentElement.parentElement.getAttribute('id');
                 profileElement.querySelector('.image-container img').src = 'https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif';
@@ -489,6 +504,7 @@ function fetchLocationFromLatAndLong(position) {
     }
 
 function initLoader() {
+  console.log("loader started")
   const loader = document.createElement("div");
   loader.classList.add("blacklayer");
   let img = document.createElement("img");
@@ -502,3 +518,7 @@ function removeLoader() {
   document.body.classList.remove("removescroll")
 }
                       // <p><strong>headding:</strong>${(profile?.position?.heading)?profile?.position?.heading:"headding towards unknown direction"}</p>
+
+                      document.onload=function(){
+                        stopButton.classList.add("hide");
+                      }
