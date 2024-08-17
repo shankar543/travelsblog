@@ -559,7 +559,7 @@ function displayProfiles() {
         profileElement.classList.add('profile');
         profileElement.innerHTML = `
               <div class="image-container" id=${doc.id}>
-              <span class="download"><span class="material-symbols-outlined">download</span></span>
+              <span class="download"><span class="material-symbols-outlined"> download image</span></span>
               <span class="remove"><span class="material-symbols-outlined">delete_forever</span></span>
               <img src="${profile.picUrl}" alt="Profile Image">
               <h3>${profile.locationname}</h3>
