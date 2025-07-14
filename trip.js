@@ -574,7 +574,7 @@ function displayProfiles() {
         // <p><strong>lat:</strong>${profile?.position?.latitude} <strong>long:</strong>${profile?.position?.longitude}<p></p>
         profileElement.querySelector(".download").addEventListener("click", (e) => {
           let psw = prompt("plesae enter password")
-          if (psw.toLowerCase() != "mouni") {
+          if (psw.toLowerCase() != "satya") {
             alert("sorry,you are not authorised to download")
             return
           }
@@ -592,7 +592,7 @@ function displayProfiles() {
             if (!confirm('are you sure , u want to delete?')) { return }
             else {
               let psw = prompt("plesae enter password")
-              if (psw.toLowerCase() != "mouni") {
+              if (psw.toLowerCase() != "satya") {
                 alert("sorry,you are not authorised to delete")
                 return
               }
